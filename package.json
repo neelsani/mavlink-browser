@@ -21,7 +21,7 @@
     "web"
   ],
   "author": "Neel Sani",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/neelsani/mavlink-browser/issues"
   },
