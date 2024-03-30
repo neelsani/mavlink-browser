@@ -28,6 +28,7 @@
   "homepage": "https://github.com/neelsani/mavlink-browser#readme",
   "dependencies": {
     "events": "^3.3.0",
+    "readme-md-generator": "^1.0.0",
     "underscore": "^1.13.6",
     "util": "^0.12.5",
     "vite-plugin-node-polyfills": "^0.21.0"
