@@ -1,0 +1,35 @@
+{
+  "name": "mavlink-browser",
+  "version": "1.0.0",
+  "description": "Allows the parsing and generation of mavlink v1 and v2 packets within a browser environment.",
+  "main": "./mavlink/mavlink.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neelsani/mavlink-browser.git"
+  },
+  "keywords": [
+    "mavlink",
+    "mavlink2",
+    "browser",
+    "es6",
+    "drone",
+    "control",
+    "webgc",
+    "web"
+  ],
+  "author": "Neel Sani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neelsani/mavlink-browser/issues"
+  },
+  "homepage": "https://github.com/neelsani/mavlink-browser#readme",
+  "dependencies": {
+    "events": "^3.3.0",
+    "underscore": "^1.13.6",
+    "util": "^0.12.5",
+    "vite-plugin-node-polyfills": "^0.21.0"
+  }
+}
