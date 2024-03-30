@@ -19149,6 +19149,6 @@ MAVLink20Processor.prototype.decode = function(msgbuf) {
     return m;
 }
 
-export  {mavlink20, MAVLink20Processor}
+export  {mavlink20, MAVLink20Processor, Buffer}
 // allow loading as both common.js (Node), and/or vanilla javascript in-browser
 
