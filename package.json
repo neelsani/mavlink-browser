@@ -1,10 +1,10 @@
 {
   "name": "mavlink-browser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Allows the parsing and generation of mavlink v1 and v2 packets within a browser environment.",
   "main": "./mavlink/mavlink.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo No tests yet"
   },
   "repository": {
     "type": "git",

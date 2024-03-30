@@ -10,7 +10,7 @@
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   </a>
   <a href="https://github.com/neelsani/mavlink-browser/blob/master/LICENSE" target="_blank">
-    <img alt="License: ISC" src="https://img.shields.io/github/license/neelsani/mavlink-browser" />
+    <img alt="License: MIT" src="https://img.shields.io/github/license/neelsani/mavlink-browser" />
   </a>
 </p>
 
@@ -30,6 +30,15 @@ npm i mavlink-browser
 npm run test
 ```
 
+## Usage
+
+```javascript
+import { mavlink20, MAVLink20Processor } from 'mavlink-browser';
+const mavlinkParser = new MAVLink20Processor(null, 42, 150);
+
+
+
+```
 ## Author
 
 👤 **Neel Sani**
@@ -48,7 +57,5 @@ Give a ⭐️ if this project helped you!
 ## 📝 License
 
 Copyright © 2024 [Neel Sani](https://github.com/neelsani).<br />
-This project is [ISC](https://github.com/neelsani/mavlink-browser/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/neelsani/mavlink-browser/blob/master/LICENSE) licensed.
 
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
