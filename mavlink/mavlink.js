@@ -10,7 +10,7 @@ import { jspack } from './jspack.js';
 
 import _ from 'underscore';
 import events from 'events'; // for .emit(..), MAVLink20Processor inherits from events.EventEmitter
-import util from './util.';
+import util from './util.js';
 import Buffer from './buffer';
 
 // Add a convenience method to Buffer
