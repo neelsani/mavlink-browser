@@ -9,7 +9,7 @@
   <a href="https://github.com/neelsani/mavlink-browser/graphs/commit-activity" target="_blank">
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   </a>
-  <a href="https://github.com/neelsani/mavlink-browser/blob/master/LICENSE" target="_blank">
+  <a href="https://github.com/neelsani/mavlink-browser/blob/main/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/github/license/neelsani/mavlink-browser" />
   </a>
 </p>

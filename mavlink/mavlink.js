@@ -11,7 +11,7 @@ import { jspack } from './jspack.js';
 import _ from 'underscore';
 import events from 'events'; // for .emit(..), MAVLink20Processor inherits from events.EventEmitter
 import util from 'util';
-import Buffer from 'vite-plugin-node-polyfills/shims/buffer';
+import Buffer from './buffer';
 
 // Add a convenience method to Buffer
 Buffer.prototype.toByteArray = function () {
