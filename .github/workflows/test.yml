@@ -37,6 +37,8 @@ jobs:
         if: steps.check.outputs.changed == 'true'
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          commitMode: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
