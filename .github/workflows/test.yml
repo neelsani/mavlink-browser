@@ -1,0 +1,53 @@
+on:
+  push:
+    branches: main
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-20.04, windows-latest]
+        version: [18,20]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.version }}
+      - run: npm ci
+      - run: npm test
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Check Version Change
+        id: check
+        uses: EndBug/version-check@v2
+      - name: Create and Tag Release
+        if: steps.check.outputs.changed == 'true'
+        uses: avakar/tag-and-release@v1
+        with:
+          tag_name: ${{ steps.check.outputs.version }}
+      - name: Publish to npm
+        if: steps.check.outputs.changed == 'true'
+        run: npm publish
+        env: 
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        
+      - name: No Version Change
+        if: steps.check.outputs.changed == 'false'
+        run: echo no version change detected... Skipping publish and release
+      
+
+        
+
+  
