@@ -56,4 +56,3 @@ Give a ⭐️ if this project helped you!
 
 Copyright © 2024 [Neel Sani](https://github.com/neelsani).<br />
 This project is [MIT](https://github.com/neelsani/mavlink-browser/blob/main/LICENSE) licensed.
-
