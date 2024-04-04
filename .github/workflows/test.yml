@@ -29,6 +29,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18"
+          registry-url: "https://registry.npmjs.org"
       - name: Check Version Change
         id: check
         uses: EndBug/version-check@v2
@@ -39,7 +40,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           tag_name: ${{ steps.check.outputs.version }}
-          release_name: Release ${{ steps.check.outputs.version }}
+          release_name: ${{ steps.check.outputs.version }}
           draft: false
           prerelease: false
       
