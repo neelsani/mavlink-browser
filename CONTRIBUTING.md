@@ -145,4 +145,3 @@ Updating, improving and correcting the documentation
 
 ## Join The Project Team
 <!-- TODO -->
-
