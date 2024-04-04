@@ -33,6 +33,13 @@ jobs:
       - name: Check Version Change
         id: check
         uses: EndBug/version-check@v2
+      - name: "✏️ Generate release changelog"
+        if: steps.check.outputs.changed == 'trues'
+        uses: saadmk11/changelog-ci@v1.1.2
+        with:
+          release_version: ${{ steps.check.outputs.version }}
+          # Optional
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create and Tag Release
         if: steps.check.outputs.changed == 'true'
         uses: actions/create-release@latest
@@ -41,8 +48,10 @@ jobs:
         with:
           tag_name: ${{ steps.check.outputs.version }}
           release_name: ${{ steps.check.outputs.version }}
+          body: ${{ steps.changelog-ci.outputs.changelog }}
           draft: false
           prerelease: false
+      
       
       - name: Publish to npm
         if: steps.check.outputs.changed == 'true'
