@@ -34,7 +34,7 @@ jobs:
         id: check
         uses: EndBug/version-check@v2
       - name: "✏️ Generate release changelog"
-        if: steps.check.outputs.changed == 'trues'
+        if: steps.check.outputs.changed == 'true'
         uses: saadmk11/changelog-ci@v1.1.2
         with:
           release_version: ${{ steps.check.outputs.version }}
