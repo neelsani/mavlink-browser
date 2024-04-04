@@ -35,11 +35,12 @@ jobs:
         uses: EndBug/version-check@v2
       - name: "✏️ Generate release changelog"
         if: steps.check.outputs.changed == 'true'
-        uses: saadmk11/changelog-ci@v1.1.2
+        id: changelog
+        uses: requarks/changelog-action@v1
         with:
-          release_version: ${{ steps.check.outputs.version }}
-          # Optional
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
+          tag: ${{ steps.check.outputs.version }}
+
       - name: Create and Tag Release
         if: steps.check.outputs.changed == 'true'
         uses: actions/create-release@latest
@@ -48,7 +49,7 @@ jobs:
         with:
           tag_name: ${{ steps.check.outputs.version }}
           release_name: ${{ steps.check.outputs.version }}
-          body: ${{ steps.changelog-ci.outputs.changelog }}
+          body: ${{ steps.changelog.outputs.changes }}
           draft: false
           prerelease: false
       
