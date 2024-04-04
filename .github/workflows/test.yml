@@ -35,12 +35,10 @@ jobs:
         uses: EndBug/version-check@v2
       - name: "✏️ Generate release changelog"
         if: steps.check.outputs.changed == 'true'
-        id: github_release
-        uses: mikepenz/release-changelog-builder-action@v4
-        with:
-          commitMode: true
+        uses: Bullrich/generate-release-changelog@master
+        id: Changelog
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
 
       - name: Create and Tag Release
         if: steps.check.outputs.changed == 'true'
@@ -50,7 +48,7 @@ jobs:
         with:
           tag_name: ${{ steps.check.outputs.version }}
           release_name: ${{ steps.check.outputs.version }}
-          body: ${{steps.github_release.outputs.changelog}}
+          body: ${{ steps.Changelog.outputs.changelog }}
           draft: false
           prerelease: false
       
