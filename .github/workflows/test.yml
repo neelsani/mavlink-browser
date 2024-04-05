@@ -60,7 +60,11 @@ jobs:
           # Optional
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-
+      - name: Decode and Set Environment Variable
+        id: decode
+        run: |
+          decoded_text=$(echo -e "${{ steps.changelog-ci.outputs.changelog }}" | sed 's/%0A/\n/g')
+          echo "::set-output name=decoded_text::$decoded_text"
       - name: Create and Tag Release
         if: steps.check.outputs.changed == 'true'
         uses: actions/create-release@latest
@@ -69,7 +73,7 @@ jobs:
         with:
           tag_name: ${{ steps.check.outputs.version }}
           release_name: ${{ steps.check.outputs.version }}
-          body: ${{ steps.changelog-ci.outputs.changelog }}
+          body: ${{ steps.decode.outputs.decoded_text }}
           draft: false
           prerelease: false
       
