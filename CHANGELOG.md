@@ -13,3 +13,6 @@
 
 
 [v1.4.8]: https://github.com/neelsani/mavlink-browser/compare/v1.0.0...v1.4.8
+
+
+## [v1.0.0] - 2024-03-30
