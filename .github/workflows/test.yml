@@ -50,6 +50,8 @@ jobs:
           fromTag: ${{ github.ref_name }}
           toTag: ${{ env.previousTag }}
           writeToFile: true
+          includeInvalidCommits: true
+          useGitmojis: false
 
 
       - name: Create and Tag Release
