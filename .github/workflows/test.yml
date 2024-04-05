@@ -43,28 +43,40 @@ jobs:
           echo "previousTag=$name" >> $GITHUB_ENV
       - name: "✏️ Generate release changelog"
         if: steps.check.outputs.changed == 'true'
-        uses: saadmk11/changelog-ci@v1.1.2
-        id: changelog-ci
+        uses: mikepenz/release-changelog-builder-action@v4
+        id: build_changelog
         with:
-          # Optional, you can provide any name for your changelog file,
-          # We currently support Markdown (.md) and reStructuredText (.rst) files
-          # defaults to `CHANGELOG.md` if not provided.
-          changelog_filename: CHANGELOG.md
-          # Optional, only required when you want more customization
-          # e.g: group your changelog by labels with custom titles,
-          # different version prefix, pull request title and version number regex etc.
-          # config file can be in JSON or YAML format.
-          config_file: clconf.yml
-          
-          release_version: ${{ steps.check.outputs.version }}
-          # Optional
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commitMode: true
+          fromTag: ${{ env.previousTag }}
+          toTag:  ${{ github.ref_name }}
+          configurationJson: |
+            {
+              "template": "#{{CHANGELOG}}",
+              "categories": [
+                {
+                    "title": "## Feature",
+                    "labels": ["feat", "feature"]
+                },
+                {
+                    "title": "## Fix",
+                    "labels": ["fix", "bug"]
+                },
+                {
+                    "title": "## Other",
+                    "labels": []
+                }
+              ],
+              "label_extractor": [
+                {
+                  "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
+                  "target": "$1"
+                }
+              ],
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Decode and Set Environment Variable
-        id: decode
-        run: |
-          decoded_text=$(echo -e "${{ steps.changelog-ci.outputs.changelog }}" | sed 's/%0A/\n/g')
-          echo "::set-output name=decoded_text::$decoded_text"
+
       - name: Create and Tag Release
         if: steps.check.outputs.changed == 'true'
         uses: actions/create-release@latest
@@ -73,7 +85,7 @@ jobs:
         with:
           tag_name: ${{ steps.check.outputs.version }}
           release_name: ${{ steps.check.outputs.version }}
-          body: ${{ steps.decode.outputs.decoded_text }}
+          body: ${{steps.build_changelog.outputs.changelog}}
           draft: false
           prerelease: false
       
