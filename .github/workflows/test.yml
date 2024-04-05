@@ -61,7 +61,7 @@ jobs:
         with:
           token: ${{ github.token }}
           fromTag: ${{ github.ref_name }}
-          toTag: ${{ env.previousTag }}
+          toTag: ${{ steps.check.outputs.version }}
           writeToFile: true
 
       - name: Edit Release
