@@ -25,6 +25,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -33,12 +35,22 @@ jobs:
       - name: Check Version Change
         id: check
         uses: EndBug/version-check@v2
+      - name: Get previous tag
+        id: previousTag
+        run: |
+          name=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | tail -2 | head -1)
+          echo "previousTag: $name"
+          echo "previousTag=$name" >> $GITHUB_ENV
       - name: "✏️ Generate release changelog"
         if: steps.check.outputs.changed == 'true'
-        uses: Bullrich/generate-release-changelog@master
-        id: Changelog
-        env:
-          REPO: ${{ github.repository }}
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fromTag: ${{ github.ref_name }}
+          toTag: ${{ env.previousTag }}
+          writeToFile: true
+
 
       - name: Create and Tag Release
         if: steps.check.outputs.changed == 'true'
@@ -48,7 +60,7 @@ jobs:
         with:
           tag_name: ${{ steps.check.outputs.version }}
           release_name: ${{ steps.check.outputs.version }}
-          body: ${{ steps.Changelog.outputs.changelog }}
+          body: ${{ steps.changelog.outputs.changes }}
           draft: false
           prerelease: false
       
