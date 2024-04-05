@@ -44,24 +44,30 @@ jobs:
       - name: "✏️ Generate release changelog"
         if: steps.check.outputs.changed == 'true'
         id: changelog
-        uses: TriPSs/conventional-changelog-action@v5
+        uses: requarks/changelog-action@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          skip-version-file: true
-          skip-tag: true
-          skip-bump: true
+          token: ${{ github.token }}
+          fromTag: ${{ github.ref_name }}
+          toTag: ${{ env.previousTag }}
+          writeToFile: true
+
       - name: Create and Tag Release
         if: steps.check.outputs.changed == 'true'
         uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: ${{ steps.check.outputs.version }}
-          release_name: ${{ steps.check.outputs.version }}
-          body: ${{ steps.changelog.outputs.clean_changelog }}
+          tag_name: v${{ steps.check.outputs.version }}
+          release_name: v${{ steps.check.outputs.version }}
+          body:  ${{ steps.changelog.outputs.changes }}
           draft: false
           prerelease: false
-      
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: main
+          commit_message: 'docs: update CHANGELOG.md for v${{ steps.check.outputs.version }} [skip ci]'
+          file_pattern: CHANGELOG.md
       
       - name: Publish to npm
         if: steps.check.outputs.changed == 'true'
