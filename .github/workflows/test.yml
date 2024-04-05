@@ -63,6 +63,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Commit CHANGELOG.md
+        if: steps.check.outputs.changed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: main
