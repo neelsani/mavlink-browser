@@ -60,8 +60,8 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ github.token }}
-          fromTag: ${{ github.ref_name }}
-          toTag: ${{ steps.check.outputs.version }}
+          fromTag: v${{ steps.check.outputs.version }}
+          toTag: ${{ env.previousTag }}
           writeToFile: true
 
       - name: Edit Release
