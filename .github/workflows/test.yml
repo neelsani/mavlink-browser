@@ -43,40 +43,13 @@ jobs:
           echo "previousTag=$name" >> $GITHUB_ENV
       - name: "✏️ Generate release changelog"
         if: steps.check.outputs.changed == 'true'
-        uses: mikepenz/release-changelog-builder-action@v4
-        id: build_changelog
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v5
         with:
-          commitMode: true
-          fromTag: ${{ env.previousTag }}
-          toTag:  ${{ github.ref_name }}
-          configurationJson: |
-            {
-              "template": "#{{CHANGELOG}}",
-              "categories": [
-                {
-                    "title": "## Feature",
-                    "labels": ["feat", "feature"]
-                },
-                {
-                    "title": "## Fix",
-                    "labels": ["fix", "bug"]
-                },
-                {
-                    "title": "## Other",
-                    "labels": []
-                }
-              ],
-              "label_extractor": [
-                {
-                  "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
-                  "target": "$1"
-                }
-              ],
-            }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-version-file: true
+          skip-tag: true
+          skip-bump: true
       - name: Create and Tag Release
         if: steps.check.outputs.changed == 'true'
         uses: actions/create-release@latest
@@ -85,7 +58,7 @@ jobs:
         with:
           tag_name: ${{ steps.check.outputs.version }}
           release_name: ${{ steps.check.outputs.version }}
-          body: ${{steps.build_changelog.outputs.changelog}}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
           draft: false
           prerelease: false
       
