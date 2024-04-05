@@ -63,7 +63,7 @@ jobs:
       - name: Decode and Set Environment Variable
         id: decode
         run: |
-          decoded_text=$(echo -e "${{ steps.changelog-ci.outputs.changelog }}" | tr '%0A' '\n')
+          decoded_text=$(echo -e "${{ steps.changelog-ci.outputs.changelog }}" | sed 's/%0A/\n/g')
           echo "::set-output name=decoded_text::$decoded_text"
       - name: Create and Tag Release
         if: steps.check.outputs.changed == 'true'
