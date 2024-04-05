@@ -41,6 +41,19 @@ jobs:
           name=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | tail -2 | head -1)
           echo "previousTag: $name"
           echo "previousTag=$name" >> $GITHUB_ENV
+      
+
+      - name: Create and Tag Release
+        if: steps.check.outputs.changed == 'true'
+        id: createrelease
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: v${{ steps.check.outputs.version }}
+          release_name: v${{ steps.check.outputs.version }}
+          draft: false
+          prerelease: false
       - name: "✏️ Generate release changelog"
         if: steps.check.outputs.changed == 'true'
         id: changelog
@@ -51,17 +64,14 @@ jobs:
           toTag: ${{ env.previousTag }}
           writeToFile: true
 
-      - name: Create and Tag Release
+      - name: Edit Release
         if: steps.check.outputs.changed == 'true'
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        uses: irongut/EditRelease@v1.2.0
         with:
-          tag_name: v${{ steps.check.outputs.version }}
-          release_name: v${{ steps.check.outputs.version }}
-          body:  ${{ steps.changelog.outputs.changes }}
-          draft: false
-          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: ${{ steps.createrelease.outputs.id }}
+          body: ${{ steps.changelog.outputs.changes }}
+          
       - name: Commit CHANGELOG.md
         if: steps.check.outputs.changed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
