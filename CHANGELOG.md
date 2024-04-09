@@ -1,5 +1,11 @@
 
 
+## [v1.5.0] - 2024-04-09
+### :recycle: Refactors
+- [`c3b8d03`](https://github.com/neelsani/mavlink-browser/commit/c3b8d0305175bc740b3241c5c16ad7b55d380665) - Update the changelog and .gitignore [skip ci] *(commit by [@neelsani](https://github.com/neelsani))*
+- [`1cc6137`](https://github.com/neelsani/mavlink-browser/commit/1cc613743ff7de9cf7f0c3fc78ce2edfeb6cffde) - better the workflow and the tests *(commit by [@neelsani](https://github.com/neelsani))*
+
+
 ## [v1.4.9] - 2024-04-09
 ### :bug: Bug Fixes
 - [`fd82c19`](https://github.com/neelsani/mavlink-browser/commit/fd82c190f9bedb18aec0b4f5f6ada5eb86a61551) - 4 *(commit by [@neelsani](https://github.com/neelsani))*
@@ -31,3 +37,4 @@
 ## [v1.0.0] - 2024-03-30
 
 [v1.4.9]: https://github.com/neelsani/mavlink-browser/compare/v1.0.0...v1.4.9
+[v1.5.0]: https://github.com/neelsani/mavlink-browser/compare/v1.4.8...v1.5.0
