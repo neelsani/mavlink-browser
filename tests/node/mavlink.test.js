@@ -11,7 +11,7 @@ var {mavlink20, MAVLink20Processor, Long} = require('../../dist/mavlink.js')
 
 // mock mav with sysid-42 and componentid=150
 let mav = new MAVLink20Processor(null, 42, 150);
-console.log("mav")
+console.log("Starting the tests")
 // this uses the above mock by default, but lets us override it before or during tests if desired
 let set_mav = function (_mav) {
     // set global mav var from local

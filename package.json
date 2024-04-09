@@ -1,6 +1,6 @@
 {
   "name": "mavlink-browser",
-  "version": "1.4.9",
+  "version": "1.5.0",
   "description": "Allows the parsing and generation of mavlink v1 and v2 packets within a browser environment.",
   "main": "./dist/mavlink.js",
   "module": "./mavlink/mavlink.js",
