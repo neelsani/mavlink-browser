@@ -33,8 +33,52 @@ npm run test
 ## Usage
 
 ```javascript
-import { mavlink20, MAVLink20Processor } from 'mavlink-browser';
+//initial
+import { mavlink20, MAVLink20Processor, Buffer } from 'mavlink-browser';
 const mavlinkParser = new MAVLink20Processor(null, 42, 150);
+
+//Establish a connection medium. Ex - WebSerial: 
+const port = await navigator.serial.requestPort();
+await port.open({ baudRate: 57600 });
+
+//Create a message handler to handle incoming mavlink messages
+mavlinkParser.on('message',(msg) => {
+  //Can implement any custom logic to handle incoming messages. Below just logs the message to the console.
+  console.log(msg)
+})
+
+//Can also create a handler for every mavlink message ex:
+mavlinkParser.on('HEARTBEAT', (heartbeat) => {
+  console.log(heartbeat)
+})
+mavlinkParser.on('MISSION_ACK', (mack) => {
+  console.log(mack)
+})
+
+//Intialize serial port reader
+const reader = port.readable.getReader();
+while (reader) {
+  const { value, done } = await reader.read();
+  if (done) {
+    reader.releaseLock();
+    break;
+  }
+  // the below line parses the uint8 array and emits a message which is sent to the handler created above
+  mavlinkParser.parseBuffer(value)
+}
+
+
+//Sending messages:
+const writer = port.writable.getWriter();
+
+//Create a command ex arm command:
+const armCommand = new mavlink20.messages.command_long(1, 0, mavlink20.MAV_CMD_COMPONENT_ARM_DISARM, 0, 1, 0, 0, 0, 0, 0, 0);
+
+//Format it accordingly and send it through the webserial port
+if (writer) {
+  writer.write(new Buffer(armCommand.pack(mavlinkParser)))
+}
+
 ```
 ## Author
 
